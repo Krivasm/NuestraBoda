@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boda de Victoria & Bryan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #6b8e23;
+            --soft-pink: #fce4ec;
+            --dark-green: #2d3e12;
+            --accent-pink: #f06292;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #fdfbfb;
+            color: var(--dark-green);
+            overflow-x: hidden;
+        }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-script { font-family: 'Great Vibes', cursive; }
+
+        .hero-bg {
+            background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), 
+                        url('https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&q=80&w=1920');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .fade-in {
+            animation: fadeIn 2s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--soft-pink);
+        }
+
+        /* Overlay para activar audio */
+        #music-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Overlay de Bienvenida -->
+    <div id="music-overlay">
+        <h2 class="font-script text-6xl mb-8 text-[#F4811F]">Victoria & Bryan</h2>
+        <p class="font-serif italic mb-8 text-gray-600">Tienen una invitación especial para ti</p>
+        <button id="btn-ingresar" onclick="startExperience()" class="bg-[#6b8e23] text-white px-12 py-4 rounded-full shadow-xl hover:scale-105 transition-all uppercase tracking-widest text-sm font-bold">
+            Ingresar
+        </button>
+    </div>
+
+    <!-- Contenedor del Reproductor -->
+    <div id="player-container" style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
+        <div id="player"></div>
+    </div>
+
+    <!-- Sección Principal -->
+    <section class="min-h-screen hero-bg flex items-center justify-center p-6 text-center">
+        <div class="max-w-3xl bg-white/70 p-10 md:p-20 rounded-full border-4 border-[#e9edc9] shadow-2xl fade-in relative">
+            <h3 class="uppercase tracking-[0.3em] text-sm mb-4 text-gray-600">Estás invitado a nuestra boda</h3>
+            <br>
+            <h1 class="font-script text-7xl md:text-9xl text-[#F4811F] mb-6">Victoria & Bryan</h1>
+            <p class="font-serif italic text-xl md:text-2xl text-gray-700">
+                "Acompáñanos a celebrar este momento tan especial e importante para nosotros."
+            </p>
+            <div class="mt-10 inline-block border-y border-gray-400 py-4 px-8">
+                <p class="text-2xl tracking-widest uppercase">22 | MARZO | 2026</p>
+            </div>
+            <br><br>
+            <div class="font-serif italic text-xl md:text-2xl text-gray-700">
+                <p> Boda Campestre <br> Wayuu / Cóctel Día </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cuenta Regresiva -->
+    <section class="py-16 bg-[#f7f9f3] text-center">
+        <h2 class="font-serif text-3xl mb-8">Faltan solo...</h2>
+        <div id="countdown" class="flex justify-center gap-4 md:gap-8 text-dark-green">
+            <div class="countdown-item p-4 rounded-lg w-20 md:w-28 shadow-sm">
+                <span id="days" class="block text-2xl md:text-4xl font-bold">00</span>
+                <span class="text-xs uppercase">Días</span>
+            </div>
+            <div class="countdown-item p-4 rounded-lg w-20 md:w-28 shadow-sm">
+                <span id="hours" class="block text-2xl md:text-4xl font-bold">00</span>
+                <span class="text-xs uppercase">Horas</span>
+            </div>
+            <div class="countdown-item p-4 rounded-lg w-20 md:w-28 shadow-sm">
+                <span id="minutes" class="block text-2xl md:text-4xl font-bold">00</span>
+                <span class="text-xs uppercase">Min</span>
+            </div>
+            <div class="countdown-item p-4 rounded-lg w-20 md:w-28 shadow-sm">
+                <span id="seconds" class="block text-2xl md:text-4xl font-bold">00</span>
+                <span class="text-xs uppercase">Seg</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detalles del Evento -->
+    <section class="py-20 px-6 max-w-4xl mx-auto text-center">
+        <div class="grid md:grid-cols-1 gap-12 items-center">
+            <div class="space-y-6">
+                <div class="flex justify-center mb-4">
+                    <svg class="w-12 h-12 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </div>
+                <h2 class="font-serif text-4xl text-green-800">Ubicación</h2>
+                <p class="text-xl font-light">Alewa los Monos,<br>Corregimiento Juan y Medio<br>Riohacha, La Guajira</p>
+                
+                <a href="https://www.google.com/maps/dir/Riohacha,+La+Guajira/11.1389633,-72.984205/@11.333425,-73.1095525,59216m/data=!3m2!1e3!4b1!4m8!4m7!1m5!1m1!1s0x8e8b62ae5191d0d9:0xb4b4a0a181b3bbd2!2m2!1d-72.9167838!2d11.5384151!1m0?hl=es&entry=ttu&g_ep=EgoyMDI2MDIxOC4wIKXMDSoASAFQAw%3D%3D" 
+                   target="_blank"
+                   class="inline-block bg-[#6b8e23] text-white px-8 py-3 rounded-full hover:bg-green-700 transition shadow-lg uppercase text-sm tracking-widest">
+                    Ver mapa de llegada
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Confirmación -->
+    <section class="py-20 bg-pink-50 text-center px-6">
+        <div class="max-w-2xl mx-auto border-2 border-white p-12 rounded-lg shadow-inner bg-white/50">
+            <div class="flex justify-center mb-6">
+                <img src="https://img.freepik.com/vector-gratis/arreglo-floral-rosa-acuarela_65186-3182.jpg" 
+                     alt="Arreglo floral RSVP" 
+                     class="w-48 md:w-64 h-auto mix-blend-multiply opacity-90">
+            </div>	
+            <p class="text-gray-600 mb-8 italic text-lg">Tu presencia es el mejor regalo que podemos recibir para celebrar este día especial. Sin embargo, si deseas tener un detalle con nosotros, contaremos con </p><p class="text-black mb-8 italic text-2xl font-bold">lluvia de sobres.<br></p>
+            <p class="mb-8 font-semibold">Por favor confirma tu asistencia antes del Sábado 14 de Marzo para reservar tu cupo:</p>
+            
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="https://wa.me/+573003580593?text=Hola%20Victoria%20y%20Bryan!%20Confirmo%20mi%20asistencia%20a%20su%20boda." 
+                   class="flex items-center justify-center gap-2 bg-[#25D366] text-white px-6 py-3 rounded-md hover:opacity-90 transition shadow-md">
+                    <span>Confirmar a Victoria por WhatsApp</span>
+                </a>
+                <a href="https://wa.me/+573014450740?text=Hola%20Victoria%20y%20Bryan!%20Confirmo%20mi%20asistencia%20a%20su%20boda." 
+                   class="flex items-center justify-center gap-2 bg-[#25D366] text-white px-6 py-3 rounded-md hover:opacity-90 transition shadow-md">
+                    <span>Confirmar a Bryan por WhatsApp</span>
+                </a>
+            </div>
+            <p class="text-gray-600 mb-8 italic text-lg"><br>¡Gracias por compartir esta alegría a nuestro lado!</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 text-center text-gray-400 text-sm italic">
+        <p class="font-script text-3xl text-gray-500 mb-2">Te esperamos</p>
+        <p>&copy; 2026 Victoria & Bryan</p>
+    </footer>
+
+    <script>
+        // ID del video de YouTube
+        const VIDEO_ID = 'gG1EKYZB7vU';
+
+        // Carga de la API de YouTube
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '360',
+                width: '640',
+                videoId: VIDEO_ID,
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'loop': 1,
+                    'playlist': VIDEO_ID,
+                    'origin': window.location.origin
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            console.log("Reproductor listo");
+        }
+
+        function startExperience() {
+            const overlay = document.getElementById('music-overlay');
+            const btn = document.getElementById('btn-ingresar');
+            
+            btn.innerHTML = "Cargando...";
+            
+            // Iniciar reproducción
+            if (player && typeof player.playVideo === 'function') {
+                player.unMute();
+                player.setVolume(50);
+                player.playVideo();
+                
+                // Pequeña validación: si el reproductor no inicia en 1 segundo, forzarlo
+                setTimeout(() => {
+                    if (player.getPlayerState() !== 1) { // 1 = playing
+                        player.playVideo();
+                    }
+                }, 1000);
+            }
+
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 800);
+
+            
+        }
+
+        // Cuenta regresiva
+        const weddingDate = new Date("March 22, 2026 16:00:00").getTime();
+        setInterval(function() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            if (document.getElementById("days")) {
+                document.getElementById("days").innerText = days.toString().padStart(2, '0');
+                document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+                document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+                document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+            }
+        }, 1000);
+    </script>
+	<audio id="musicaBoda" loop>
+    <source src="sonidos/I Don't Want to Miss a Thing (Sax Version).mp3" type="audio/mpeg">
+    Tu navegador no soporta el elemento de audio.
+</audio>
+
+<script>
+    // Función para activar el sonido
+    function reproducirMusica() {
+        const audio = document.getElementById('musicaBoda');
+	audio.volume = 0.2;
+        
+        // Intentar reproducir
+        audio.play().then(() => {
+            console.log("Reproducción iniciada");
+        }).catch(error => {
+            console.log("Esperando interacción del usuario para sonar...");
+        });
+    }
+
+    // Ejecutar cuando el usuario haga clic o toque cualquier parte de la pantalla
+    document.addEventListener('click', reproducirMusica, { once: true });
+    document.addEventListener('touchstart', reproducirMusica, { once: true });
+    document.addEventListener('scroll', reproducirMusica, { once: true });
+</script>
+
+
+
+</body>
+</html>
