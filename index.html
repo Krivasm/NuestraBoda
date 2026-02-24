@@ -171,16 +171,16 @@
 
     <script>
         // ID del video de YouTube
-        const VIDEO_ID = 'gG1EKYZB7vU';
+        //const VIDEO_ID = 'gG1EKYZB7vU';
 
         // Carga de la API de YouTube
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        //var tag = document.createElement('script');
+        //tag.src = "https://www.youtube.com/iframe_api";
+        //var firstScriptTag = document.getElementsByTagName('script')[0];
+        //firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        var player;
-        function onYouTubeIframeAPIReady() {
+        //var player;
+        /*function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
                 height: '360',
                 width: '640',
@@ -200,7 +200,7 @@
 
         function onPlayerReady(event) {
             console.log("Reproductor listo");
-        }
+        }*/
 
         function startExperience() {
             const overlay = document.getElementById('music-overlay');
@@ -209,7 +209,7 @@
             btn.innerHTML = "Cargando...";
             
             // Iniciar reproducción
-            if (player && typeof player.playVideo === 'function') {
+            /*if (player && typeof player.playVideo === 'function') {
                 player.unMute();
                 player.setVolume(50);
                 player.playVideo();
@@ -225,7 +225,7 @@
             overlay.style.opacity = '0';
             setTimeout(() => {
                 overlay.style.display = 'none';
-            }, 800);
+            }, 800);*/
 
             
         }
@@ -258,7 +258,7 @@
     // Función para activar el sonido
     function reproducirMusica() {
         const audio = document.getElementById('musicaBoda');
-	audio.volume = 0.2;
+		audio.volume = 0.2;
         
         // Intentar reproducir
         audio.play().then(() => {
@@ -277,4 +277,5 @@
 
 
 </body>
+
 </html>
