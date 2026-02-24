@@ -170,7 +170,7 @@
             const overlay = document.getElementById('welcome-overlay');
             const btn = document.getElementById('btn-ingresar');
             
-            btn.innerHTML = "Cargando...";
+            btn.innerHTML = "Abriendo...";
             
             overlay.style.opacity = '0';
             setTimeout(() => {
@@ -207,10 +207,11 @@
     <script>
         function reproducirMusica() {
             const audio = document.getElementById('musicaBoda');
-            if (audio) {
-                audio.volume = 0.2;
-                audio.play().catch(e => console.log("Audio pausado hasta interacción"));
-            }
+            audio.volume = 0.2;
+            audio.play().then(() => {
+            console.log("Reproducción iniciada");
+                }).catch(error => {console.log("Esperando interacción del usuario para sonar...");
+                    });   
         }
 
         // Activar audio con el botón de ingresar también
@@ -223,3 +224,4 @@
 
 </body>
 </html>
+
